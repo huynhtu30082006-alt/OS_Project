@@ -20,7 +20,7 @@ public:
     void button_save_output();
     void button_run_fcfs();
     void button_run_sjf();
-    void button_exit()
+    void button_exit();
     ~MainWindow();
 
 

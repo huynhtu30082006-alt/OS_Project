@@ -1,6 +1,12 @@
 #include "scheduling_algorithms.h"
 #include <algorithm>
 
+// Hàm so sánh dùng cho sort
+bool compareByArrival(const Process &a, const Process &b)
+{
+    return a.arrivalTime < b.arrivalTime;
+}
+
 // Constructor
 Process::Process(string pid, int at, int bt) {
     this->pid = pid;
@@ -16,26 +22,19 @@ void SchedulerFCFS::addProcess(const Process &p) {
 }
 
 void SchedulerFCFS::runFCFS() {
-    // 1) Sort theo arrival time
-    sort(processes.begin(), processes.end(), [](auto &a, auto &b) {
-        return a.arrivalTime < b.arrivalTime;
-    });
+    // 1) Sắp xếp các tiến trình theo thời điểm đến (arrivalTime)
+    sort(processes.begin(), processes.end(), compareByArrival);
 
     int currentTime = 0;
 
     for (auto &p : processes) {
-        // Nếu CPU idle trước khi tiến trình đến
         if (currentTime < p.arrivalTime) {
             currentTime = p.arrivalTime;
         }
 
-        // 2) Tính Completion Time
+        // Tính các giá trị cơ bản
         p.completionTime = currentTime + p.burstTime;
-
-        // 3) Tính Turnaround Time = CT - AT
         p.turnaroundTime = p.completionTime - p.arrivalTime;
-
-        // 4) Tính Waiting Time = TAT - BT
         p.waitingTime = p.turnaroundTime - p.burstTime;
 
         currentTime = p.completionTime;
