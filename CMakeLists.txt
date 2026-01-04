@@ -27,7 +27,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         scheduling_algorithms.h
-        scheduling_algorithms.cpp
         IO.cpp
         IO.h
     )
