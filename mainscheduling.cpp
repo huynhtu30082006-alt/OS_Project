@@ -7,30 +7,41 @@ using namespace std;
 
 int main()
 {
-    // Tạo scheduler FCFS
+    int numOfProcesses;
+    cout << "Enter number of processes: ";
+    cin >> numOfProcesses;
+
     SchedulerFCFS scheduler;
 
-    // Dữ liệu kiểm chứng từ textbook
-    scheduler.addProcess(Process("P1", 0, 4));
-    scheduler.addProcess(Process("P2", 1, 3));
-    scheduler.addProcess(Process("P3", 2, 2));
-    scheduler.addProcess(Process("P4", 3, 1));
+    for (int i = 0; i < numOfProcesses; i++) {
+        string name;
+        int at, bt;
+        cout << "\nEnter name of process " << i + 1 << ": ";
+        cin >> name;
+        cout << "Enter Arrival Time: ";
+        cin >> at;
+        cout << "Enter Burst Time: ";
+        cin >> bt;
+
+        scheduler.addProcess(Process(name, at, bt));
+    }
 
     // Chạy thuật toán FCFS
     scheduler.runFCFS();
 
-    // Lấy kết quả
+    // In kết quả
     vector<Process> results = scheduler.getResults();
 
-    // In bảng kết quả ra console
-    cout << "PID\tAT\tBT\tCT\tTAT\tWT" << endl;
+    cout << "\nPID\tAT\tBT\tST\tCT\tTAT\tWT\tRT\n";
     for (auto &p : results) {
         cout << p.pid << "\t"
              << p.arrivalTime << "\t"
              << p.burstTime << "\t"
+             << p.startTime << "\t"
              << p.completionTime << "\t"
              << p.turnaroundTime << "\t"
-             << p.waitingTime << endl;
+             << p.waitingTime << "\t"
+             << p.responseTime << endl;
     }
 
     return 0;

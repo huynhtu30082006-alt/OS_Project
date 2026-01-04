@@ -10,9 +10,11 @@ public:
     string pid;
     int arrivalTime;
     int burstTime;
+    int startTime;
     int completionTime;
     int turnaroundTime;
     int waitingTime;
+    int responseTime;
 
     Process(string pid = "", int at = 0, int bt = 0);
 };
@@ -23,8 +25,8 @@ private:
 
 public:
     void addProcess(const Process &p);
-    void runFCFS();                     // chỗ chạy thuật toán FCFS
-    vector<Process> getResults() const; // lấy kết quả sau khi chạy
+    void runFCFS();                     // Chạy thuật toán FCFS (có Response Time)
+    vector<Process> getResults() const; // Lấy kết quả sau khi chạy
 };
 
 #endif // SCHEDULING_ALGORITHMS_H

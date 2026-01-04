@@ -12,9 +12,11 @@ Process::Process(string pid, int at, int bt) {
     this->pid = pid;
     this->arrivalTime = at;
     this->burstTime = bt;
+    this->startTime = 0;
     this->completionTime = 0;
     this->turnaroundTime = 0;
     this->waitingTime = 0;
+    this->responseTime = 0;
 }
 
 void SchedulerFCFS::addProcess(const Process &p) {
@@ -22,20 +24,29 @@ void SchedulerFCFS::addProcess(const Process &p) {
 }
 
 void SchedulerFCFS::runFCFS() {
-    // 1) Sắp xếp các tiến trình theo thời điểm đến (arrivalTime)
+    // 1) Sắp xếp theo arrivalTime
     sort(processes.begin(), processes.end(), compareByArrival);
 
     int currentTime = 0;
-
     for (auto &p : processes) {
         if (currentTime < p.arrivalTime) {
             currentTime = p.arrivalTime;
         }
 
-        // Tính các giá trị cơ bản
+        // Start Time
+        p.startTime = currentTime;
+
+        // Completion Time
         p.completionTime = currentTime + p.burstTime;
+
+        // Turnaround Time
         p.turnaroundTime = p.completionTime - p.arrivalTime;
-        p.waitingTime = p.turnaroundTime - p.burstTime;
+
+        // Waiting Time
+        p.waitingTime = p.startTime - p.arrivalTime;
+
+        // Response Time = Waiting Time
+        p.responseTime = p.waitingTime;
 
         currentTime = p.completionTime;
     }
