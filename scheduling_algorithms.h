@@ -1,29 +1,33 @@
 #ifndef SCHEDULING_ALGORITHMS_H
 #define SCHEDULING_ALGORITHMS_H
 
-#include <vector>
 #include <string>
-#include <algorithm>
+#include <vector>
 
 using namespace std;
 
-struct Process {
-    string id;
+class Process {
+public:
+    string pid;
     int arrivalTime;
     int burstTime;
     int startTime;
     int completionTime;
-    int waitingTime;
     int turnaroundTime;
-    bool isCompleted = false;
+    int waitingTime;
+    int responseTime;
+
+    Process(string pid = "", int at = 0, int bt = 0);
 };
 
-struct SchedulingResult {
+class SchedulerSJF {
+private:
     vector<Process> processes;
-    double avgWaitingTime;
-    double avgTurnaroundTime;
-};
 
-SchedulingResult runSJF(vector<Process> processes);
+public:
+    void addProcess(const Process &p);
+    void runSJF();
+    vector<Process> getResults() const;
+};
 
 #endif
