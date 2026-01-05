@@ -1,0 +1,34 @@
+#include <iostream>
+#include "csv.h"
+
+int main() {
+    std::string filename;
+
+    std::cout << "Nhap ten file CSV (vd: test_small.csv): ";
+    std::cin >> filename;
+
+    auto processes = readCSV(filename);
+
+    if (!validateCSV(processes)) {
+        std::cout << "Du lieu CSV KHONG hop le\n";
+        std::cin.get();
+        std::cin.get();
+        return 0;
+    }
+
+    std::cout << "\nSo tien trinh: " << processes.size() << "\n";
+    std::cout << "Process\tArrival\tBurst\n";
+
+    for (auto& p : processes) {
+        std::cout << p.process << "\t"
+            << p.arrival << "\t"
+            << p.burst << "\n";
+    }
+
+    writeCSV("output.csv", processes);
+    std::cout << "\nDa ghi ra output.csv\n";
+
+    std::cin.get();
+    std::cin.get();
+    return 0;
+}
